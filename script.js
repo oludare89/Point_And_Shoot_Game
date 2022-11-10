@@ -29,6 +29,7 @@ class Raven {
     }
     update(deltatime){
         this.x -= this.directionX;
+        this.y += this.directionY;
         if (this.x < 0 - this.width) this.markedForDeletion = true;
         this.timeSinceFlap += deltatime;
         if (this.timeSinceFlap > this.flapInterval){
