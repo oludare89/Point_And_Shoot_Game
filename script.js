@@ -24,14 +24,18 @@ class Raven {
         this.image.src = 'images/raven.png';
         this.frame = 0;
         this.maxFrame = 4;
-        console.log(this.frame);
+        this.timeSinceFlap = 0;
+        this.flapInternval = Math.random * 50 + 50;
     }
-    update(){
+    update(deltatime){
         this.x -= this.directionX;
         if (this.x < 0 - this.width) this.markedForDeletion = true;
-        if (this.frame > this.maxFrame) this.frame = 0;
-        else this.frame++;
-        
+        this.timeSinceFlap += deltatime;
+        if (this.timeSinceFlap > this.flapInterval){
+            if (this.frame > this.maxFrame) this.frame = 0;
+            else this.frame++;
+            this.timeSinceFlap = 0;
+        }        
     }
     draw(){
         ctx.drawImage(this.image, this.frame * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
@@ -47,7 +51,7 @@ function animate(timestamp){
         ravens.push(new Raven());
         timeToNextRaven = 0;
     };
-    [...ravens].forEach(object => object.update());
+    [...ravens].forEach(object => object.update(deltatime));
     [...ravens].forEach(object => object.draw());
     ravens = ravens.filter(object => !object.markedForDeletion);
     requestAnimationFrame(animate);
