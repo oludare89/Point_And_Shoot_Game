@@ -1,5 +1,5 @@
 const canvas = document.getElementById('canvas1');
-const ctx = getContext('2d');
+const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
@@ -20,3 +20,11 @@ class Raven {
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }
+
+function animate(timestamp){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    console.log('test');
+    requestAnimationFrame(animate);
+}
+
+animate();
