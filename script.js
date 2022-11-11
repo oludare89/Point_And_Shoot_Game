@@ -57,6 +57,34 @@ class Raven {
     }
 }
 
+let explosions = [];
+class Explosion {
+    constructor(x, y, size){
+        this.image = new Image ();
+        this.image.src = 'images/dustcloud.png';
+        this.spriteWidth = 200;
+        this.spriteHeight = 179;
+        this.size = size;
+        this.x = x;
+        this.y = y;
+        this.frame = 0;
+        this.sound = new Audio();
+        this.sound.src = 'sounds/boom.wav';
+        this.timeSinceLastFrame = 0;
+        this.frameInterval = 200;
+    }
+    update(deltatime){
+        if (this.frame === 0) this.sound.play();
+        this.timeSinceLastFrame += deltatime
+        if (this.timeSinceLastFrame > this.frameInterval) {
+            this.frame++;
+        }
+    }
+    draw(){
+        ctx.drawImage(this.image, this.frame * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.size, this.size);
+    }
+}
+
 function drawScore(){
     ctx.fillStyle = 'black';
     ctx.fillText('Score: ' + score, 50, 75);
@@ -70,8 +98,11 @@ window.addEventListener('click', function(e){
     const pc = detectPixelColor.data;
     ravens.forEach(object => {
         if (object.randomColors[0] === pc[0] && object.randomColors[1] === pc[1] && object.randomColors[2] === pc[2] ) {
+            // collision detected
             object.markedForDeletion = true;
             score++;
+            explosions.push(new Explosion(object.x, object.y, object.width));
+            console.log(explosions);
         }
     })
 });
