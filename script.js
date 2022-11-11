@@ -77,6 +77,9 @@ function animate(timestamp){
     if (timeToNextRaven > ravenInterval){
         ravens.push(new Raven());
         timeToNextRaven = 0;
+        ravens.sort(function(a,b){
+            return a.width - b.width;
+        })
     };
     drawScore();
     [...ravens].forEach(object => object.update(deltatime));
