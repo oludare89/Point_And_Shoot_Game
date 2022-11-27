@@ -162,6 +162,16 @@ window.addEventListener('load',function(){
         })
     });
 
+    this.window.addEventListener('keydown', function(e){
+        console.log(e.key);
+        if (e.key === ' ' && !gamePaused ) gamePaused = true;
+        else if (e.key === ' ' && gamePaused) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            gamePaused = false;
+            animate(0);
+        }
+    })
+
     function animate(timestamp){
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         collisionCtx.clearRect(0, 0, canvas.width, canvas.height);
